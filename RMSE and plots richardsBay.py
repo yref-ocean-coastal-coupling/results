@@ -5,10 +5,10 @@ from sklearn.metrics import mean_squared_error
 import function_get_validation_data as vd
 import function_get_simulation_data as sd
 # plotting:
-plotfolder = "PLOTS/"
+plotfolder = "PLOTSRB/"
 
 # simulation data:
-foldername = "41dbnrun"
+foldername = "38rbrun"
 water_levels = sd.get_water_levels(foldername)
 dav = sd.get_depth_averaged_velocity(foldername)
 dav_flow_direction = sd.get_velocity_in_depth_averaged_flow_direction(foldername)
@@ -18,14 +18,14 @@ horz_vel_2 = sd.get_horizontal_velocity_level_2(foldername)
 # validation data:
 durban_currents_validation = vd.get_durban_currents()
 durban_wave_validation = vd.get_durban_HS()
-richardsbay_currents_validation = vd.get_richards_bay_HS()
+richardsbay_currents_validation = vd.get_richards_bay_currents()
 richardsbay_wave_validation = vd.get_richards_bay_HS()
 
 
 ################################### RMSE ###################################
 # water levels:
 # combine the dataframes and then filter out nan entries
-water_levels_combined = durban_wave_validation.merge(water_levels, how='inner', on=None, left_on=None, right_on=None, left_index=True, right_index=True, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
+water_levels_combined = richardsbay_wave_validation.merge(water_levels, how='inner', on=None, left_on=None, right_on=None, left_index=True, right_index=True, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
 # print(water_levels_combined,water_levels_combined.isnull().sum())
 
 ## get rmse:
@@ -37,8 +37,8 @@ rmse_water_levels = mean_squared_error(realVals_water_levels, predictedVals_wate
 
 # depth average velocity:
 # combine the dataframes and then filter out nan entries
-dav_combined = durban_currents_validation.merge(dav, how='inner', on=None, left_on=None, right_on=None, left_index=True, right_index=True, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
-# print(dav_combined,dav_combined.isnull().sum())
+dav_combined = richardsbay_currents_validation.merge(dav, how='inner', on=None, left_on=None, right_on=None, left_index=True, right_index=True, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
+# print(dav_combined,dav_combined.isnull().sum(),dav_combined.columns)
 
 ## get rmse:
 realVals_dav_speed = dav_combined["speed"]
@@ -56,7 +56,7 @@ rmse_dav_direction = mean_squared_error(realVals_dav_direction, predictedVals_da
 
 # level 1 currents:
 # combine the dataframes and then filter out nan entries
-current_lv1_combined = durban_currents_validation.merge(horz_vel_1, how='inner', on=None, left_on=None, right_on=None, left_index=True, right_index=True, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
+current_lv1_combined = richardsbay_currents_validation.merge(horz_vel_1, how='inner', on=None, left_on=None, right_on=None, left_index=True, right_index=True, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
 # print(current_lv1_combined,current_lv1_combined.isnull().sum())
 
 ## get rmse:
@@ -74,7 +74,7 @@ rmse_lev1_direction = mean_squared_error(realVals_lv1_direction, predictedVals_l
 
 # level 2 currents:
 # combine the dataframes and then filter out nan entries
-current_lv2_combined = durban_currents_validation.merge(horz_vel_2, how='inner', on=None, left_on=None, right_on=None, left_index=True, right_index=True, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
+current_lv2_combined = richardsbay_currents_validation.merge(horz_vel_2, how='inner', on=None, left_on=None, right_on=None, left_index=True, right_index=True, sort=False, suffixes=('_x', '_y'), copy=True, indicator=False, validate=None)
 # print(current_lv2_combined,current_lv2_combined.isnull().sum())
 
 ## get rmse:
