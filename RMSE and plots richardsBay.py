@@ -8,7 +8,7 @@ import function_get_simulation_data as sd
 plotfolder = "PLOTSRB/"
 
 # simulation data:
-foldername = "38rbrun"
+foldername = "39rbrun"
 water_levels = sd.get_water_levels(foldername)
 dav = sd.get_depth_averaged_velocity(foldername)
 dav_flow_direction = sd.get_velocity_in_depth_averaged_flow_direction(foldername)
